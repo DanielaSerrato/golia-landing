@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GolIA - Mundial 2026 con datos y simulaciones</title>
     <meta name="description" content="GolIA es un dashboard privado para seguir el Mundial 2026 con modelos predictivos, datos, probabilidades y simulaciones. Acceso beta por $20.000 COP.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="GolIA - Mundial 2026 con datos y simulaciones">
+    <meta property="og:description" content="Dashboard privado para seguir el Mundial 2026 con probabilidades, favoritos, escenarios y simulaciones. Beta por $20.000 COP.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CO">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
       :root {
         --ink: #08111a;
@@ -35,6 +41,23 @@
         font-family: Inter, "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       }
 
+      .skip-link {
+        position: absolute;
+        left: 16px;
+        top: -44px;
+        z-index: 10;
+        border-radius: 6px;
+        padding: 10px 12px;
+        background: var(--green);
+        color: #06100a;
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        top: 16px;
+      }
+
       h1,
       h2,
       h3,
@@ -44,6 +67,45 @@
 
       a {
         color: inherit;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 3px;
+      }
+
+      .topbar {
+        position: absolute;
+        inset: 0 0 auto;
+        z-index: 3;
+        padding: 18px 0;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .nav .logo {
+        font-size: 28px;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .nav-links a {
+        text-decoration: none;
       }
 
       .hero {
@@ -345,6 +407,14 @@
         line-height: 1.02;
       }
 
+      .section-lead {
+        max-width: 720px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.55;
+      }
+
       .cards {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -366,6 +436,104 @@
       }
 
       .card p {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .about {
+        background: var(--white);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1fr);
+        gap: clamp(24px, 5vw, 64px);
+        align-items: start;
+      }
+
+      .stat-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        background: var(--paper);
+      }
+
+      .stat strong {
+        display: block;
+        color: #0f8e50;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .step {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        background: var(--white);
+      }
+
+      .step span {
+        display: inline-grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--green);
+        font-family: "Roboto Mono", "IBM Plex Mono", ui-monospace, monospace;
+        font-weight: 900;
+      }
+
+      .step h3 {
+        margin-top: 12px;
+        font-size: 18px;
+      }
+
+      .step p {
+        margin-top: 8px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .faq {
+        display: grid;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      details {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--white);
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 18px;
+        font-weight: 900;
+      }
+
+      details p {
+        padding: 0 18px 18px;
         color: var(--muted);
         line-height: 1.5;
       }
@@ -419,7 +587,8 @@
 
       @media (max-width: 900px) {
         .hero-grid,
-        .offer-grid {
+        .offer-grid,
+        .about-grid {
           grid-template-columns: 1fr;
         }
 
@@ -428,6 +597,10 @@
         }
 
         .cards {
+          grid-template-columns: 1fr;
+        }
+
+        .steps {
           grid-template-columns: 1fr;
         }
       }
@@ -452,12 +625,35 @@
           align-items: flex-start;
           flex-direction: column;
         }
+
+        .topbar {
+          position: static;
+          background: var(--ink);
+        }
+
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <section class="hero">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="topbar" aria-label="Navegacion principal">
+      <div class="wrap nav">
+        <a class="logo" href="#inicio" aria-label="GolIA inicio">Gol<span>IA</span></a>
+        <nav class="nav-links" aria-label="Secciones">
+          <a href="#beneficios">Beneficios</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#faq">FAQ</a>
+          <a href="#acceso">Acceso beta</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <section class="hero" id="inicio">
         <div class="wrap hero-grid">
           <div>
             <div class="logo">Gol<span>IA</span></div>
@@ -470,7 +666,7 @@
             </div>
             <div class="price">
               <strong>$20.000</strong>
-              <span>COP beta · pago unico · cupos iniciales</span>
+              <span>COP beta - pago unico - cupos iniciales</span>
             </div>
           </div>
 
@@ -506,9 +702,10 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="beneficios">
         <div class="wrap">
           <h2>Vive el Mundial con lectura previa, no con promesas magicas.</h2>
+          <p class="section-lead">GolIA esta hecho para mirar partidos con mas contexto: probabilidades, escenarios y datos claros para conversar antes de que ruede la pelota.</p>
           <div class="cards">
             <article class="card">
               <h3>Probabilidades por partido</h3>
@@ -526,11 +723,66 @@
         </div>
       </section>
 
+      <section class="section about" id="como-funciona">
+        <div class="wrap about-grid">
+          <div>
+            <h2>Que es GolIA</h2>
+            <p class="section-lead">GolIA Mundial 2026 es un dashboard privado de entretenimiento y analisis futbolero. Combina datos, modelos predictivos y simulaciones para estimar escenarios del torneo sin prometer resultados exactos.</p>
+            <div class="steps">
+              <article class="step">
+                <span>1</span>
+                <h3>Compra acceso beta</h3>
+                <p>Pago unico de $20.000 COP durante preventa.</p>
+              </article>
+              <article class="step">
+                <span>2</span>
+                <h3>Autoriza tu correo</h3>
+                <p>Se activa tu cuenta de Google para entrar al dashboard privado.</p>
+              </article>
+              <article class="step">
+                <span>3</span>
+                <h3>Lee el Mundial</h3>
+                <p>Revisa partidos, favoritos, simulaciones y caminos al titulo.</p>
+              </article>
+            </div>
+          </div>
+          <div class="stat-list" aria-label="Elementos incluidos en GolIA">
+            <div class="stat"><strong>Partidos</strong><span>Probabilidad estimada de victoria, empate y derrota.</span></div>
+            <div class="stat"><strong>Favoritos</strong><span>Ranking de selecciones con lectura actualizada del torneo.</span></div>
+            <div class="stat"><strong>Simulaciones</strong><span>Escenarios del Mundial y caminos posibles hacia el titulo.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="wrap">
+          <h2>Preguntas rapidas</h2>
+          <div class="faq">
+            <details>
+              <summary>GolIA predice resultados exactos?</summary>
+              <p>No. GolIA estima probabilidades y escenarios con datos y modelos predictivos. No garantiza marcadores ni resultados reales.</p>
+            </details>
+            <details>
+              <summary>GolIA es para apuestas?</summary>
+              <p>No. Es una herramienta de entretenimiento y analisis futbolero para entender mejor el Mundial, no para prometer dinero ni apuestas seguras.</p>
+            </details>
+            <details>
+              <summary>Que recibo con el acceso beta?</summary>
+              <p>Acceso al dashboard privado con probabilidades por partido, favoritos, simulaciones, probabilidad de campeon e insights del torneo.</p>
+            </details>
+            <details>
+              <summary>Cuanto cuesta?</summary>
+              <p>La beta cuesta $20.000 COP como pago unico. Luego sube a $30.000 COP en fase de grupos y $50.000 COP desde octavos.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <section class="section offer" id="acceso">
         <div class="wrap offer-grid">
           <div>
             <h2>Acceso beta GolIA Mundial 2026</h2>
-            <p>Pago unico para entrar al dashboard privado. La beta abre con precio especial antes del arranque del Mundial.</p>
+            <p>Pago unico para entrar al dashboard privado. Despues del pago se autoriza tu correo de Google y se envia la URL de acceso.</p>
             <div class="actions">
               <a class="button" href="http://localhost:8501" target="_blank" rel="noopener">Comprar / pedir acceso</a>
             </div>
@@ -538,7 +790,7 @@
           <div class="offer-price">
             <strong>$20.000</strong>
             <span>COP beta</span>
-            <span>Luego: $30.000 fase de grupos · $50.000 desde octavos</span>
+            <span>Luego: $30.000 fase de grupos - $50.000 desde octavos</span>
           </div>
         </div>
       </section>
