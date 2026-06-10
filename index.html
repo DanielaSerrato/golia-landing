@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
   <head>
@@ -165,6 +166,16 @@
         color: var(--green);
       }
 
+      /* SEO/Copy: Estilo añadido para el nuevo gancho del Hero */
+      .hero-tagline {
+        display: block;
+        margin-top: 18px;
+        font-size: clamp(20px, 3vw, 32px);
+        color: var(--gold);
+        font-weight: 800;
+        line-height: 1.1;
+      }
+
       .eyebrow {
         display: inline-flex;
         width: fit-content;
@@ -181,9 +192,9 @@
 
       h1 {
         max-width: 760px;
-        margin-top: 18px;
-        font-size: clamp(42px, 7vw, 92px);
-        line-height: 0.95;
+        margin-top: 14px;
+        font-size: clamp(36px, 5.5vw, 68px);
+        line-height: 1.05;
         font-weight: 950;
       }
 
@@ -639,13 +650,13 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <header class="topbar" aria-label="Navegacion principal">
+    <a class="skip-link" href="#hero-main">Saltar al contenido</a>
+    <header class="topbar" aria-label="Navegación principal">
       <div class="wrap nav">
         <a class="logo" href="#inicio" aria-label="GolIA inicio">Gol<span>IA</span></a>
         <nav class="nav-links" aria-label="Secciones">
           <a href="#beneficios">Beneficios</a>
-          <a href="#como-funciona">Como funciona</a>
+          <a href="#como-funciona">Cómo funciona</a>
           <a href="#faq">FAQ</a>
           <a href="#acceso">Acceso beta</a>
         </nav>
@@ -654,19 +665,21 @@
 
     <main id="contenido">
       <section class="hero" id="inicio">
-        <div class="wrap hero-grid">
+        <div class="wrap hero-grid" id="hero-main">
           <div>
             <div class="logo">Gol<span>IA</span></div>
             <span class="eyebrow">Modelos predictivos + datos + simulaciones</span>
-            <h1>Antes del partido, mira que dice GolIA.</h1>
+            <h1>Polla Mundial 2026 con Inteligencia Artificial</h1>
+            <span class="hero-tagline">Antes del partido, mira qué dice GolIA.</span>
+            
             <p class="lead">Herramienta para armar mejores pollas futboleras del Mundial 2026 con probabilidades por partido, ranking de favoritos, simulaciones del torneo y escenarios actualizados.</p>
             <div class="actions">
               <a class="button" href="#acceso">Quiero acceso beta</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener">Abrir herramienta</a>
+              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Abrir herramienta</a>
             </div>
             <div class="price">
               <strong>$20.000</strong>
-              <span>COP beta - pago unico - cupos iniciales</span>
+              <span>COP beta - pago único - cupos iniciales</span>
             </div>
           </div>
 
@@ -683,7 +696,7 @@
               <div class="match">
                 <div class="team">
                   <div class="flag">MEX</div>
-                  <strong>Mexico</strong>
+                  <strong>México</strong>
                 </div>
                 <div class="vs">VS</div>
                 <div class="team">
@@ -692,11 +705,11 @@
                 </div>
               </div>
               <div class="bars">
-                <div class="bar-row"><span>Mexico</span><div class="track"><div class="fill" style="width:48%"></div></div><strong>48%</strong></div>
+                <div class="bar-row"><span>México</span><div class="track"><div class="fill" style="width:48%"></div></div><strong>48%</strong></div>
                 <div class="bar-row"><span>Empate</span><div class="track"><div class="fill blue" style="width:25%"></div></div><strong>25%</strong></div>
                 <div class="bar-row"><span>South Africa</span><div class="track"><div class="fill gold" style="width:27%"></div></div><strong>27%</strong></div>
               </div>
-              <p class="disclaimer">Ejemplo visual. GolIA muestra predicciones probabilisticas basadas en datos y simulaciones. No garantiza resultados reales.</p>
+              <p class="disclaimer">Ejemplo visual. GolIA muestra predicciones probabilísticas basadas en datos y simulaciones. No garantiza resultados reales.</p>
             </div>
           </aside>
         </div>
@@ -704,8 +717,8 @@
 
       <section class="section" id="beneficios">
         <div class="wrap">
-          <h2>Vive el Mundial con lectura previa, no con promesas magicas.</h2>
-          <p class="section-lead">GolIA esta hecho para mirar partidos con mas contexto: probabilidades, escenarios y datos claros para conversar antes de que ruede la pelota.</p>
+          <h2>Vive el Mundial con lectura previa, no con promesas mágicas.</h2>
+          <p class="section-lead">GolIA está hecho para mirar partidos con más contexto: probabilidades, escenarios y datos claros para conversar antes de que ruede la pelota.</p>
           <div class="cards">
             <article class="card">
               <h3>Probabilidades por partido</h3>
@@ -713,7 +726,7 @@
             </article>
             <article class="card">
               <h3>Simulaciones del torneo</h3>
-              <p>Revisa escenarios, caminos al titulo y cambios de favoritos durante el Mundial.</p>
+              <p>Revisa escenarios, caminos al título y cambios de favoritos durante el Mundial.</p>
             </article>
             <article class="card">
               <h3>Datos para conversar</h3>
@@ -726,57 +739,57 @@
       <section class="section about" id="como-funciona">
         <div class="wrap about-grid">
           <div>
-            <h2>Que es GolIA</h2>
-            <p class="section-lead">GolIA Mundial 2026 es una herramienta de entretenimiento y analisis futbolero para tomar mejores decisiones en pollas y quinielas. Combina datos, modelos predictivos y simulaciones para estimar escenarios del torneo sin prometer resultados exactos.</p>
+            <h2>Qué es GolIA</h2>
+            <p class="section-lead">GolIA Mundial 2026 es una herramienta de entretenimiento y análisis futbolero para tomar mejores decisiones en pollas y quinielas. Combina datos, modelos predictivos y simulaciones para estimar escenarios del torneo sin prometer resultados exactos.</p>
             <div class="steps">
               <article class="step">
                 <span>1</span>
                 <h3>Compra acceso beta</h3>
-                <p>Pago unico de $20.000 COP durante preventa. Paga por llave @cisefa o Nequi.</p>
+                <p>Pago único de $20.000 COP durante preventa. Paga por llave @cisefa o Nequi.</p>
               </article>
               <article class="step">
                 <span>2</span>
                 <h3>Autoriza tu correo</h3>
-                <p>Envia el comprobante al 3124565617 y se activa tu cuenta de Google.</p>
+                <p>Envía el comprobante al 3124565617 y se activa tu cuenta de Google.</p>
               </article>
               <article class="step">
                 <span>3</span>
                 <h3>Lee el Mundial</h3>
-                <p>Revisa partidos, favoritos, simulaciones y caminos al titulo.</p>
+                <p>Revisa partidos, favoritos, simulaciones y caminos al título.</p>
               </article>
             </div>
           </div>
           <div class="stat-list" aria-label="Elementos incluidos en GolIA">
             <div class="stat"><strong>Partidos</strong><span>Probabilidad estimada de victoria, empate y derrota.</span></div>
             <div class="stat"><strong>Favoritos</strong><span>Ranking de selecciones con lectura actualizada del torneo.</span></div>
-            <div class="stat"><strong>Simulaciones</strong><span>Escenarios del Mundial y caminos posibles hacia el titulo.</span></div>
+            <div class="stat"><strong>Simulaciones</strong><span>Escenarios del Mundial y caminos posibles hacia el título.</span></div>
           </div>
         </div>
       </section>
 
       <section class="section" id="faq">
         <div class="wrap">
-          <h2>Preguntas rapidas</h2>
+          <h2>Preguntas rápidas</h2>
           <div class="faq">
             <details>
-              <summary>GolIA predice resultados exactos?</summary>
+              <summary>¿GolIA predice resultados exactos?</summary>
               <p>No. GolIA estima probabilidades y escenarios con datos y modelos predictivos. No garantiza marcadores ni resultados reales.</p>
             </details>
             <details>
-              <summary>GolIA sirve para pollas o quinielas?</summary>
-              <p>Si. GolIA ayuda a comparar picks con probabilidades, favoritos y escenarios simulados. No promete dinero, marcadores exactos ni apuestas seguras.</p>
+              <summary>¿GolIA sirve para pollas o quinielas?</summary>
+              <p>Sí. GolIA ayuda a comparar picks con probabilidades, favoritos y escenarios simulados. No promete dinero, marcadores exactos ni apuestas seguras.</p>
             </details>
             <details>
-              <summary>Que recibo con el acceso beta?</summary>
-              <p>Acceso a la herramienta con probabilidades por partido, favoritos, simulaciones, probabilidad de campeon e insights del torneo.</p>
+              <summary>¿Qué recibo con el acceso beta?</summary>
+              <p>Acceso a la herramienta con probabilidades por partido, favoritos, simulaciones, probabilidad de campeón e insights del torneo.</p>
             </details>
             <details>
-              <summary>Cuanto cuesta?</summary>
-              <p>La beta cuesta $20.000 COP como pago unico. Luego sube a $30.000 COP en fase de grupos y $50.000 COP desde octavos.</p>
+              <summary>¿Cuánto cuesta?</summary>
+              <p>La beta cuesta $20.000 COP como pago único. Luego sube a $30.000 COP en fase de grupos y $50.000 COP desde octavos.</p>
             </details>
             <details>
-              <summary>Como compro?</summary>
-              <p>Paga a la llave @cisefa o por Nequi y envia el comprobante al WhatsApp 3124565617. Si necesitas link de pago, escribenos a ese mismo WhatsApp.</p>
+              <summary>¿Cómo compro?</summary>
+              <p>Paga a la llave @cisefa o por Nequi y envía el comprobante al WhatsApp 3124565617. Si necesitas link de pago, escríbenos a ese mismo WhatsApp.</p>
             </details>
           </div>
         </div>
@@ -786,10 +799,10 @@
         <div class="wrap offer-grid">
           <div>
             <h2>Acceso beta GolIA Mundial 2026</h2>
-            <p>Pago unico para entrar a la herramienta. Paga a la llave @cisefa o por Nequi y envia el comprobante al WhatsApp 3124565617. Si necesitas link de pago, escribenos a ese mismo WhatsApp.</p>
+            <p>Pago único para entrar a la herramienta. Paga a la llave @cisefa o por Nequi y envía el comprobante al WhatsApp 3124565617. Si necesitas link de pago, escríbenos a ese mismo WhatsApp.</p>
             <div class="actions">
-              <a class="button" href="https://wa.me/573124565617?text=Hola%2C%20quiero%20comprar%20el%20acceso%20beta%20a%20GolIA.%20Voy%20a%20pagar%20por%20llave%20%40cisefa%20o%20Nequi.%20Te%20envio%20el%20comprobante%20por%20aca%3F" target="_blank" rel="noopener">Comprar / enviar comprobante</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener">Abrir herramienta</a>
+              <a class="button" href="https://wa.me/573124565617?text=Hola%2C%20quiero%20comprar%20el%20acceso%20beta%20a%20GolIA.%20Voy%20a%20pagar%20por%20llave%20%40cisefa%20o%20Nequi.%20Te%20envio%20el%20comprobante%20por%20aca%3F" target="_blank" rel="noopener noreferrer">Comprar / enviar comprobante</a>
+              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Abrir herramienta</a>
             </div>
           </div>
           <div class="offer-price">
@@ -802,7 +815,7 @@
     </main>
 
     <footer>
-      <div class="wrap">GolIA muestra predicciones probabilisticas basadas en datos y simulaciones. Sirve para analisis, entretenimiento y pollas futboleras. No garantiza resultados reales ni apuestas seguras.</div>
+      <div class="wrap">GolIA muestra predicciones probabilísticas basadas en datos y simulaciones. Sirve para análisis, entretenimiento y pollas futboleras. No garantiza resultados reales ni apuestas seguras.</div>
     </footer>
   </body>
 </html>
