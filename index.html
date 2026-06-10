@@ -3,250 +3,980 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GolIA - Antes del partido, mire qué dice la Inteligencia Artificial</title>
+    <title>GoliA - Antes del partido, mire qué dice la Inteligencia Artificial</title>
     <meta name="description" content="Consulte el modelo predictivo de IA para el Mundial 2026. Probabilidades fáciles de entender para ganar sus pollas sin adivinar.">
     <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
       :root {
         --ink: #08111a;
         --navy: #102a43;
         --blue: #00b7ff;
         --green: #1de27a;
+        --green-dim: rgba(29, 226, 122, 0.15);
         --gold: #f0c857;
         --paper: #f6f8f3;
         --white: #ffffff;
         --muted: #627069;
-        --line: rgba(8, 17, 26, 0.13);
-        --line-soft: rgba(255, 255, 255, 0.16);
-        --shadow: 0 22px 70px rgba(8, 17, 26, 0.14);
+        --line: rgba(8, 17, 26, 0.10);
+        --line-soft: rgba(255, 255, 255, 0.12);
+        --glass: rgba(255, 255, 255, 0.06);
+        --glass-border: rgba(255, 255, 255, 0.12);
+        --shadow-sm: 0 2px 8px rgba(8, 17, 26, 0.06);
+        --shadow: 0 16px 48px rgba(8, 17, 26, 0.10);
+        --shadow-lg: 0 32px 80px rgba(8, 17, 26, 0.18);
+        --radius: 12px;
+        --radius-lg: 20px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      * { box-sizing: border-box; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; }
 
       body {
-        margin: 0;
         background: var(--paper);
         color: var(--ink);
-        font-family: Inter, "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
       }
 
+      /* ── Skip link ── */
       .skip-link {
-        position: absolute; left: 16px; top: -44px; z-index: 10; border-radius: 6px;
-        padding: 10px 12px; background: var(--green); color: #06100a; font-weight: 900; text-decoration: none;
+        position: absolute; left: 16px; top: -60px; z-index: 100;
+        border-radius: 8px; padding: 12px 16px;
+        background: var(--green); color: #06100a;
+        font-weight: 900; text-decoration: none;
+        transition: top 0.2s var(--ease);
       }
       .skip-link:focus { top: 16px; }
 
+      /* ── Scroll reveal ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
+      .reveal-delay-3 { transition-delay: 0.3s; }
+
+      /* ── Typography ── */
       h1, h2, h3, p { margin: 0; }
       a { color: inherit; }
-      a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+      a:focus-visible, button:focus-visible, summary:focus-visible {
+        outline: 3px solid var(--gold); outline-offset: 3px;
+      }
 
-      .topbar { position: absolute; inset: 0 0 auto; z-index: 3; padding: 18px 0; }
-      .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-      .nav .logo { font-size: 28px; }
+      /* ── Layout ── */
+      .wrap {
+        width: min(1200px, calc(100% - 40px));
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ── Topbar ── */
+      .topbar {
+        position: fixed; inset: 0 0 auto; z-index: 50;
+        padding: 0;
+        background: rgba(8, 17, 26, 0.7);
+        backdrop-filter: blur(20px) saturate(1.4);
+        -webkit-backdrop-filter: blur(20px) saturate(1.4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+      .topbar.scrolled {
+        background: rgba(8, 17, 26, 0.92);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 18px; height: 64px;
+      }
+
+      .nav .logo {
+        font-size: 26px; font-weight: 950; letter-spacing: -0.02em;
+        color: var(--white); text-decoration: none;
+      }
+      .nav .logo span { color: var(--green); }
 
       .nav-links {
-        display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
-        color: rgba(255, 255, 255, 0.78); font-size: 14px; font-weight: 800;
+        display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+        font-size: 13px; font-weight: 700;
       }
-      .nav-links a { text-decoration: none; }
+      .nav-links a {
+        text-decoration: none; color: rgba(255, 255, 255, 0.65);
+        padding: 6px 14px; border-radius: 8px;
+        transition: color 0.2s, background 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .nav-cta {
+        background: var(--green) !important;
+        color: #06100a !important;
+        font-weight: 800 !important;
+      }
+      .nav-cta:hover {
+        background: #2bffa0 !important;
+      }
 
+      /* ── Hero ── */
       .hero {
-        min-height: 92vh; min-height: 92dvh; display: grid; align-items: center; position: relative; overflow: hidden; color: var(--white);
-        background: linear-gradient(135deg, rgba(8, 17, 26, 0.98), rgba(16, 42, 67, 0.94) 48%, rgba(0, 183, 255, 0.72)), linear-gradient(45deg, rgba(29, 226, 122, 0.18), transparent 58%);
+        min-height: 100vh; min-height: 100dvh;
+        display: grid; align-items: center;
+        position: relative; overflow: hidden;
+        color: var(--white);
+        background: var(--ink);
+        padding-top: 64px;
       }
-      .hero::before { content: ""; position: absolute; inset: clamp(18px, 3vw, 38px); border: 2px solid rgba(255, 255, 255, 0.12); pointer-events: none; }
 
-      .wrap { width: min(1160px, calc(100% - 36px)); margin: 0 auto; position: relative; z-index: 2; }
-      .hero-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr); gap: clamp(28px, 4vw, 64px); align-items: center; padding: clamp(34px, 6vw, 80px) 0; }
+      .hero-bg {
+        position: absolute; inset: 0; z-index: 0;
+        background:
+          radial-gradient(ellipse 80% 60% at 20% 40%, rgba(29, 226, 122, 0.08) 0%, transparent 70%),
+          radial-gradient(ellipse 60% 50% at 80% 30%, rgba(0, 183, 255, 0.10) 0%, transparent 70%),
+          linear-gradient(180deg, var(--ink) 0%, #0a1929 100%);
+      }
 
-      .logo { font-size: clamp(34px, 5vw, 60px); font-weight: 950; line-height: 0.95; }
-      .logo span { color: var(--green); }
-      .eyebrow { display: inline-flex; width: fit-content; margin-top: clamp(24px, 3vw, 42px); border-radius: 999px; padding: 8px 12px; background: rgba(29, 226, 122, 0.16); color: #68ffad; font-size: 12px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+      .hero-grid-pattern {
+        position: absolute; inset: 0; z-index: 1;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+        -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+      }
 
-      h1 { max-width: 760px; margin-top: 14px; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; font-weight: 950; }
-      .lead { max-width: 620px; margin-top: 18px; color: rgba(255, 255, 255, 0.85); font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; }
+      .hero-orb {
+        position: absolute; border-radius: 50%; filter: blur(80px);
+        pointer-events: none; z-index: 1;
+        animation: float 8s ease-in-out infinite;
+      }
+      .hero-orb-1 {
+        width: 400px; height: 400px; top: 10%; left: -5%;
+        background: rgba(29, 226, 122, 0.12);
+        animation-delay: 0s;
+      }
+      .hero-orb-2 {
+        width: 300px; height: 300px; bottom: 10%; right: -5%;
+        background: rgba(0, 183, 255, 0.10);
+        animation-delay: -3s;
+      }
 
-      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-      .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 6px; padding: 13px 18px; background: var(--green); color: #06100a; font-weight: 950; text-decoration: none; cursor: pointer; }
-      .button.secondary { border: 1px solid rgba(255, 255, 255, 0.34); background: transparent; color: var(--white); }
+      @keyframes float {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-30px) scale(1.05); }
+      }
 
-      .price { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; margin-top: 28px; }
-      .price strong { color: var(--gold); font-size: clamp(42px, 6vw, 72px); line-height: 0.9; font-weight: 950; }
-      .price span { color: rgba(255, 255, 255, 0.72); font-weight: 850; }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(32px, 5vw, 72px);
+        align-items: center;
+        padding: clamp(40px, 6vw, 80px) 0;
+        position: relative;
+        z-index: 2;
+      }
 
-      .section { padding: clamp(34px, 6vw, 72px) 0; }
-      .section h2 { max-width: 760px; font-size: clamp(28px, 4vw, 46px); line-height: 1.02; }
-      .section-lead { max-width: 720px; margin-top: 12px; color: var(--muted); font-size: 17px; line-height: 1.55; }
+      .hero-badge {
+        display: inline-flex; align-items: center; gap: 8px;
+        width: fit-content;
+        border-radius: 999px; padding: 8px 16px;
+        background: var(--green-dim);
+        border: 1px solid rgba(29, 226, 122, 0.2);
+        color: #68ffad; font-size: 12px; font-weight: 800;
+        letter-spacing: 0.06em; text-transform: uppercase;
+      }
+      .badge-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--green);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(0.7); }
+      }
 
-      .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
-      .card { border: 1px solid var(--line); border-radius: 8px; padding: 20px; background: var(--white); box-shadow: var(--shadow); }
-      .card h3 { font-size: 18px; margin-bottom: 8px; }
-      .card p { color: var(--muted); line-height: 1.5; }
+      .hero h1 {
+        margin-top: 16px;
+        font-size: clamp(36px, 5vw, 58px);
+        font-weight: 950;
+        line-height: 1.06;
+        letter-spacing: -0.03em;
+      }
+      .hero h1 .gradient-text {
+        background: linear-gradient(135deg, var(--green) 0%, var(--blue) 50%, var(--gold) 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 4s ease infinite;
+      }
+      @keyframes gradient-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
 
+      .hero .lead {
+        margin-top: 20px;
+        max-width: 540px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: clamp(15px, 1.4vw, 17px);
+        line-height: 1.65;
+      }
+
+      .hero-actions {
+        display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;
+      }
+
+      /* ── Buttons ── */
+      .btn {
+        min-height: 52px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        border: 0; border-radius: 10px; padding: 14px 24px;
+        font-family: inherit; font-size: 15px; font-weight: 800;
+        text-decoration: none; cursor: pointer;
+        transition: all 0.25s var(--ease);
+        position: relative; overflow: hidden;
+      }
+      .btn::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .btn:hover::after { opacity: 1; }
+
+      .btn-primary {
+        background: var(--green); color: #06100a;
+        box-shadow: 0 4px 20px rgba(29, 226, 122, 0.3);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(29, 226, 122, 0.45);
+      }
+
+      .btn-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--white);
+        backdrop-filter: blur(8px);
+      }
+      .btn-secondary:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .hero-price {
+        display: flex; flex-wrap: wrap; gap: 12px;
+        align-items: baseline; margin-top: 28px;
+      }
+      .hero-price strong {
+        font-size: clamp(44px, 6vw, 72px);
+        font-weight: 950; line-height: 0.9;
+        background: linear-gradient(135deg, var(--gold), #ffd97a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-price span {
+        color: rgba(255, 255, 255, 0.55);
+        font-weight: 700; font-size: 14px;
+      }
+
+      /* ── Hero Card / Carousel ── */
+      .hero-card {
+        background: rgba(8, 17, 26, 0.6);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        backdrop-filter: blur(24px);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+        transition: transform 0.5s var(--ease);
+        min-width: 0;
+      }
+      .hero-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .card-titlebar {
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(11, 22, 34, 0.8);
+      }
+      .card-dots {
+        display: flex; gap: 6px;
+      }
+      .card-dots span {
+        width: 10px; height: 10px; border-radius: 50%;
+      }
+      .card-dots span:first-child { background: #ff5f57; }
+      .card-dots span:nth-child(2) { background: #ffbd2e; }
+      .card-dots span:nth-child(3) { background: #28c940; }
+      .card-label {
+        font-size: 10px; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: var(--green-dim);
+        color: var(--green);
+        padding: 5px 10px; border-radius: 6px;
+      }
+
+      /* ── App Mockups (carousel content) ── */
+      .app-mockup {
+        padding: 24px 20px;
+        background: linear-gradient(180deg, #0d1b2a 0%, #111d2e 100%);
+        color: rgba(255,255,255,0.9);
+        font-size: 13px;
+        display: flex; flex-direction: column;
+        gap: 12px;
+        min-height: 280px;
+        box-sizing: border-box;
+        width: 100%;
+        overflow: hidden;
+      }
+      .mockup-header {
+        font-size: 11px; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 0.08em; color: var(--green);
+        padding-bottom: 4px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .mockup-match {
+        display: flex; align-items: center; justify-content: center; gap: 20px;
+        padding: 8px 0;
+      }
+      .mockup-team {
+        font-size: 15px; font-weight: 800;
+        display: flex; align-items: center; gap: 8px;
+      }
+      .mockup-flag { font-size: 24px; }
+      .mockup-vs {
+        font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 700;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 6px;
+      }
+
+      /* Slide 1: probability bars */
+      .mockup-probs {
+        display: flex; justify-content: center; gap: 32px;
+        align-items: flex-end;
+        flex: 1; padding: 8px 0 4px;
+      }
+      .mockup-prob {
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        width: 80px;
+      }
+      .mockup-bar {
+        width: 100%; border-radius: 6px 6px 0 0;
+        min-height: 20px;
+        position: relative;
+      }
+      .mockup-pct { font-size: 22px; font-weight: 950; letter-spacing: -0.02em; }
+      .mockup-lbl { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 700; }
+
+      /* Slide 2: score rows */
+      .mockup-scores {
+        display: flex; flex-direction: column; gap: 6px; flex: 1;
+        justify-content: center;
+      }
+      .mockup-score-row {
+        display: flex; align-items: center; gap: 12px;
+        padding: 8px 16px; border-radius: 8px;
+        background: rgba(255,255,255,0.03);
+        transition: background 0.2s;
+      }
+      .mockup-score-row:first-child {
+        background: rgba(29, 226, 122, 0.08);
+        border: 1px solid rgba(29, 226, 122, 0.18);
+      }
+      .mockup-rank {
+        font-size: 11px; font-weight: 900; color: var(--green);
+        width: 28px;
+      }
+      .mockup-result {
+        flex: 1; font-size: 17px; font-weight: 950; text-align: center;
+        letter-spacing: 0.04em;
+      }
+      .mockup-score-pct {
+        font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.45);
+        width: 52px; text-align: right;
+      }
+
+      /* Slide 3: stats comparison */
+      .mockup-stats {
+        display: flex; flex-direction: column; gap: 6px; flex: 1;
+        justify-content: center;
+      }
+      .mockup-stat-row {
+        display: flex; align-items: center;
+        padding: 8px 16px; border-radius: 8px;
+        background: rgba(255,255,255,0.03);
+      }
+      .mockup-val-l {
+        width: 64px; font-weight: 950; font-size: 15px; text-align: right;
+        letter-spacing: -0.01em;
+      }
+      .mockup-metric {
+        flex: 1; text-align: center; font-size: 11px;
+        color: rgba(255,255,255,0.35); font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.04em;
+      }
+      .mockup-val-r {
+        width: 64px; font-weight: 950; font-size: 15px; text-align: left;
+        letter-spacing: -0.01em;
+      }
+
+      .mockup-footer {
+        font-size: 11px; color: rgba(255,255,255,0.35); text-align: center;
+        font-weight: 600;
+        padding-top: 4px;
+        border-top: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .carousel-wrapper {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+      }
+      .carousel-track {
+        display: flex;
+        transition: transform 0.6s var(--ease);
+        width: 100%;
+      }
+      .carousel-slide {
+        width: 100%;
+        min-width: 100%;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .carousel-slide img {
+        width: 100%; height: 280px; display: block;
+        object-fit: cover;
+      }
+      .carousel-caption {
+        padding: 16px 20px;
+        background: rgba(11, 22, 34, 0.9);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px; font-weight: 600;
+        line-height: 1.5; text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .carousel-controls {
+        display: flex; justify-content: center; align-items: center;
+        gap: 10px; padding: 16px 0;
+        background: rgba(8, 17, 26, 0.8);
+      }
+      .carousel-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s var(--ease);
+      }
+      .carousel-dot.active {
+        background: var(--green);
+        border-color: var(--green);
+        box-shadow: 0 0 12px rgba(29, 226, 122, 0.4);
+      }
+      .carousel-progress {
+        position: relative;
+        width: 100%;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .carousel-progress-bar {
+        height: 100%;
+        background: var(--green);
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      /* ── Sections ── */
+      .section {
+        padding: clamp(60px, 8vw, 100px) 0;
+        position: relative;
+      }
+
+      .section-header {
+        max-width: 640px;
+        margin-bottom: clamp(32px, 4vw, 48px);
+      }
+      .section-tag {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 12px; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--green); margin-bottom: 12px;
+      }
+      .section-tag::before {
+        content: '';
+        width: 20px; height: 2px;
+        background: var(--green);
+        border-radius: 2px;
+      }
+      .section h2 {
+        font-size: clamp(30px, 4vw, 48px);
+        font-weight: 900; line-height: 1.08;
+        letter-spacing: -0.02em;
+      }
+      .section-lead {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 16px; line-height: 1.65;
+      }
+
+      /* ── Feature Cards ── */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+        background: var(--white);
+        transition: all 0.35s var(--ease);
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--green), var(--blue));
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+        border-color: transparent;
+      }
+      .card:hover::before { opacity: 1; }
+
+      .card-icon {
+        width: 48px; height: 48px;
+        display: grid; place-items: center;
+        border-radius: 12px;
+        background: var(--green-dim);
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+      .card h3 {
+        font-size: 18px; font-weight: 800;
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+      }
+      .card p {
+        color: var(--muted); line-height: 1.6; font-size: 14.5px;
+      }
+
+      /* ── About / How it works ── */
       .about { background: var(--white); }
-      .about-grid { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1fr); gap: clamp(24px, 5vw, 64px); align-items: start; }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: clamp(32px, 5vw, 72px);
+        align-items: start;
+      }
+
+      .steps {
+        display: grid; gap: 14px; margin-top: 28px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 16px;
+        align-items: start;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 22px;
+        background: var(--paper);
+        transition: all 0.3s var(--ease);
+      }
+      .step:hover {
+        transform: translateX(6px);
+        box-shadow: var(--shadow-sm);
+        border-color: rgba(29, 226, 122, 0.3);
+      }
+      .step-num {
+        width: 48px; height: 48px;
+        display: grid; place-items: center;
+        border-radius: 14px;
+        background: var(--ink);
+        color: var(--green);
+        font-family: 'Inter', monospace;
+        font-size: 20px; font-weight: 900;
+      }
+      .step h3 { font-size: 17px; font-weight: 800; }
+      .step p { margin-top: 4px; color: var(--muted); line-height: 1.55; font-size: 14px; }
 
       .stat-list { display: grid; gap: 12px; }
-      .stat { border: 1px solid var(--line); border-radius: 8px; padding: 18px; background: var(--paper); }
-      .stat strong { display: block; color: #0f8e50; font-size: 28px; line-height: 1; }
-      .stat span { display: block; margin-top: 6px; color: var(--muted); line-height: 1.45; }
-
-      .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
-      .step { border: 1px solid var(--line); border-radius: 8px; padding: 18px; background: var(--white); }
-      .step span { display: inline-grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: var(--ink); color: var(--green); font-family: monospace; font-weight: 900; }
-      .step h3 { margin-top: 12px; font-size: 18px; }
-      .step p { margin-top: 8px; color: var(--muted); line-height: 1.5; }
-
-      .faq { display: grid; gap: 12px; margin-top: 24px; }
-      details { border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
-      summary { cursor: pointer; padding: 18px; font-weight: 900; }
-      details p { padding: 0 18px 18px; color: var(--muted); line-height: 1.5; }
-
-      .offer { background: var(--ink); color: var(--white); }
-      .offer-grid { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-      .offer p { max-width: 680px; margin-top: 12px; color: rgba(255, 255, 255, 0.76); line-height: 1.5; }
-      .offer-price { min-width: min(100%, 300px); border: 1px solid var(--line-soft); border-radius: 8px; padding: 22px; background: rgba(255, 255, 255, 0.08); }
-      .offer-price strong { display: block; color: var(--gold); font-size: 44px; line-height: 1; }
-      .offer-price span { display: block; margin-top: 8px; color: rgba(255, 255, 255, 0.72); font-weight: 800; }
-
-      footer { padding: 22px 0; color: var(--muted); font-size: 13px; }
-
-      @media (max-width: 900px) {
-        .hero-grid, .offer-grid, .about-grid { grid-template-columns: 1fr; }
-        .hero { min-height: auto; }
-        .cards, .steps { grid-template-columns: 1fr; }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 22px;
+        background: var(--paper);
+        transition: all 0.3s var(--ease);
       }
+      .stat:hover {
+        box-shadow: var(--shadow-sm);
+        border-color: rgba(29, 226, 122, 0.3);
+      }
+      .stat-icon { font-size: 20px; margin-bottom: 8px; }
+      .stat strong {
+        display: block;
+        font-size: 17px; font-weight: 800;
+        color: var(--ink);
+      }
+      .stat span {
+        display: block; margin-top: 6px;
+        color: var(--muted); line-height: 1.5; font-size: 14px;
+      }
+
+      /* ── FAQ ── */
+      .faq { display: grid; gap: 10px; }
+      details {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--white);
+        transition: all 0.3s var(--ease);
+        overflow: hidden;
+      }
+      details:hover { border-color: rgba(29, 226, 122, 0.3); }
+      details[open] {
+        box-shadow: var(--shadow-sm);
+        border-color: rgba(29, 226, 122, 0.25);
+      }
+      summary {
+        cursor: pointer; padding: 20px 24px;
+        font-weight: 800; font-size: 15px;
+        list-style: none;
+        display: flex; justify-content: space-between; align-items: center;
+      }
+      summary::-webkit-details-marker { display: none; }
+      summary::after {
+        content: '+'; font-size: 20px; font-weight: 300;
+        color: var(--muted);
+        transition: transform 0.3s var(--ease);
+      }
+      details[open] summary::after {
+        transform: rotate(45deg);
+        color: var(--green);
+      }
+      details .faq-body {
+        padding: 0 24px 20px;
+        color: var(--muted); line-height: 1.65; font-size: 14.5px;
+        animation: faq-open 0.3s var(--ease);
+      }
+      @keyframes faq-open {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ── CTA / Offer ── */
+      .offer {
+        background: var(--ink); color: var(--white);
+        position: relative; overflow: hidden;
+      }
+      .offer::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(ellipse 50% 60% at 20% 80%, rgba(29, 226, 122, 0.06), transparent),
+          radial-gradient(ellipse 40% 50% at 80% 20%, rgba(0, 183, 255, 0.06), transparent);
+      }
+
+      .offer-grid {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 40px; align-items: center;
+        position: relative; z-index: 2;
+      }
+      .offer h2 {
+        font-size: clamp(28px, 4vw, 44px);
+        letter-spacing: -0.02em;
+      }
+      .offer .section-lead {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .offer-card {
+        min-width: min(100%, 320px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        text-align: center;
+      }
+      .offer-card strong {
+        display: block;
+        font-size: 52px; font-weight: 950; line-height: 1;
+        background: linear-gradient(135deg, var(--gold), #ffe594);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .offer-card .offer-label {
+        display: block; margin-top: 6px;
+        color: rgba(255, 255, 255, 0.55);
+        font-weight: 700; font-size: 14px;
+      }
+      .offer-card .offer-desc {
+        display: block; margin-top: 12px;
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 13px; line-height: 1.5;
+      }
+      .offer-card .btn {
+        width: 100%; margin-top: 20px;
+      }
+
+      /* ── Social proof strip ── */
+      .trust-strip {
+        display: flex; flex-wrap: wrap; gap: 32px;
+        justify-content: center; align-items: center;
+        padding: 24px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px; font-weight: 700;
+      }
+      .trust-item {
+        display: flex; align-items: center; gap: 8px;
+      }
+
+      /* ── Footer ── */
+      footer {
+        padding: 32px 0;
+        border-top: 1px solid var(--line);
+      }
+      .footer-content {
+        display: flex; justify-content: space-between;
+        align-items: center; flex-wrap: wrap; gap: 16px;
+      }
+      .footer-brand {
+        font-size: 20px; font-weight: 950;
+      }
+      .footer-brand span { color: var(--green); }
+      .footer-text {
+        color: var(--muted); font-size: 12px; line-height: 1.5;
+        max-width: 600px;
+      }
+      .footer-links {
+        display: flex; gap: 16px; align-items: center;
+      }
+      .footer-links a {
+        color: var(--muted); font-size: 13px; font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover { color: var(--green); }
+      .footer-social {
+        display: inline-flex; align-items: center; gap: 6px;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 900px) {
+        .hero-content, .offer-grid, .about-grid { grid-template-columns: 1fr; }
+        .hero { min-height: auto; }
+        .cards { grid-template-columns: 1fr; }
+        .hero-card { max-width: 480px; }
+      }
+
       @media (max-width: 520px) {
-        .wrap { width: min(100% - 28px, 1160px); }
-        .actions, .button { width: 100%; }
-        .topbar { position: static; background: var(--ink); }
-        .nav { align-items: flex-start; flex-direction: column; }
+        .wrap { width: min(100% - 28px, 1200px); }
+        .hero-actions, .btn { width: 100%; }
+        .topbar { position: sticky; top: 0; }
+        .nav { height: 56px; }
+        .nav-links a:not(.nav-cta) { display: none; }
+        .offer-card { min-width: 100%; }
       }
     </style>
   </head>
   <body>
     <a class="skip-link" href="#hero-main">Saltar al contenido</a>
-    <header class="topbar" aria-label="Navegación principal">
+
+    <!-- ── Topbar ── -->
+    <header class="topbar" id="topbar" aria-label="Navegación principal">
       <div class="wrap nav">
-        <a class="logo" href="#inicio" aria-label="GolIA inicio">Gol<span>IA</span></a>
+        <a class="logo" href="#inicio" aria-label="GoliA inicio">Gol<span>iA</span></a>
         <nav class="nav-links" aria-label="Secciones">
-          <a href="#beneficios">¿Qué hace la IA?</a>
-          <a href="#como-funciona">Cómo se usa</a>
-          <a href="#faq">Preguntas</a>
-          <a href="#acceso">Acceso Beta</a>
+          <a href="#beneficios">Beneficios</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#faq">FAQ</a>
+          <a href="#acceso" class="nav-cta">Acceso Beta</a>
         </nav>
       </div>
     </header>
 
     <main id="contenido">
+
+      <!-- ── Hero ── -->
       <section class="hero" id="inicio">
-        <div class="wrap hero-grid" id="hero-main">
+        <div class="hero-bg"></div>
+        <div class="hero-grid-pattern"></div>
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+
+        <div class="wrap hero-content" id="hero-main">
           <div>
-            <div class="logo">Gol<span>IA</span></div>
-            <span class="eyebrow">🤖 Inteligencia Artificial + Ciencia de Datos</span>
-            <h1>Antes del partido, mire qué dice el modelo predictivo de GolIA.</h1>
-            <p class="lead">No llene su polla a la suerte. Nuestra IA analiza millones de datos históricos, rendimiento real de los jugadores y rachas de goles para darle las probabilidades exactas de cada partido de forma masticada y fácil de entender.</p>
-            <div class="actions">
-              <a class="button" href="https://linkdepagospse.rappipay.co/rlgNsG" target="_blank" rel="noopener noreferrer">Quiero el acceso VIP</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Ver la aplicación</a>
+            <div class="hero-badge">
+              <span class="badge-dot"></span>
+              Inteligencia Artificial + Ciencia de Datos
             </div>
-            <div class="price">
+            <h1>Antes del partido, mire qué dice <span class="gradient-text">el modelo predictivo.</span></h1>
+            <p class="lead">No llene su polla a la suerte. Nuestra IA analiza millones de datos históricos, rendimiento real de los jugadores y rachas de goles para darle las probabilidades exactas de cada partido.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://wa.me/573124565617?text=Hola%2C%20quiero%20comprar%20el%20acceso%20a%20GoliA.%20Voy%20a%20pagar%20por%20llave%20%40cisefa%20o%20Nequi.%20Te%20envio%20el%20comprobante%20por%20aca%3F" target="_blank" rel="noopener noreferrer">Comprar / enviar comprobante &rarr;</a>
+              <a class="btn btn-secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Ver la aplicación</a>
+            </div>
+            <div class="hero-price">
               <strong>$20.000</strong>
-              <span>COP acceso completo - pago único</span>
+              <span>COP precio beta &middot; Llave @cisefa o Nequi 3124565617</span>
             </div>
           </div>
 
-          <aside class="slider-container" style="background: #08111a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 90px rgba(0,0,0,0.5); display: flex; flex-direction: column;">
-            <div style="background: #0b1622; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-              <div style="display: flex; gap: 6px;">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
-              </div>
-              <div style="font-size: 11px; font-weight: 900; text-transform: uppercase; background: rgba(29, 226, 122, 0.12); color: var(--green); padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em;">Visualizador del Modelo Predictivo</div>
+          <!-- Carousel -->
+          <aside class="hero-card">
+            <div class="card-titlebar">
+              <div class="card-dots"><span></span><span></span><span></span></div>
+              <div class="card-label">Modelo Predictivo</div>
             </div>
-            
-            <div id="carrusel-track" style="display: flex; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;">
-              
-              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
-                <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" alt="Probabilidad de resultados" style="width: 100%; height: 280px; display: block; object-fit: cover;">
-                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">🏆 <strong>¿Quién gana?:</strong> El algoritmo analiza millones de escenarios y te dice el porcentaje exacto de Victoria, Empate o Derrota de cada equipo.</div>
-              </div>
+            <div class="carousel-wrapper">
+              <div class="carousel-track" id="carousel-track">
 
-              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Probabilidad de goles" style="width: 100%; height: 280px; display: block; object-fit: cover;">
-                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">📊 <strong>¿Habrá muchos goles?:</strong> El modelo calcula si el partido va a ser cerrado o lleno de goles, y si Ambos Anotan. ¡Ideal para apuestas de más/menos de 2.5 goles!</div>
-              </div>
+                <!-- Slide 1: Predicción 1X2 -->
+                <div class="carousel-slide">
+                  <div class="app-mockup" aria-label="Predicción de resultados 1X2">
+                    <div class="mockup-header">🔮 Predicción Ensemble J</div>
+                    <div class="mockup-match">
+                      <div class="mockup-team"><span class="mockup-flag">🇨🇴</span> Colombia</div>
+                      <div class="mockup-vs">vs</div>
+                      <div class="mockup-team"><span class="mockup-flag">🇧🇷</span> Brasil</div>
+                    </div>
+                    <div class="mockup-probs">
+                      <div class="mockup-prob">
+                        <div class="mockup-bar" style="height: 62%;background:var(--green);"></div>
+                        <span class="mockup-pct">38%</span>
+                        <span class="mockup-lbl">Colombia</span>
+                      </div>
+                      <div class="mockup-prob">
+                        <div class="mockup-bar" style="height: 42%;background:var(--gold);"></div>
+                        <span class="mockup-pct">24%</span>
+                        <span class="mockup-lbl">Empate</span>
+                      </div>
+                      <div class="mockup-prob">
+                        <div class="mockup-bar" style="height: 66%;background:var(--blue);"></div>
+                        <span class="mockup-pct">38%</span>
+                        <span class="mockup-lbl">Brasil</span>
+                      </div>
+                    </div>
+                    <div class="mockup-footer">🎯 Favorito: Brasil (38%) · ⚖️ cerrado · goles esp. 1.12–1.24</div>
+                  </div>
+                  <div class="carousel-caption"><strong>¿Quién gana?</strong> &mdash; Porcentaje exacto de Victoria, Empate o Derrota para cada partido del Mundial.</div>
+                </div>
 
-              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Rendimiento en cascada" style="width: 100%; height: 280px; display: block; object-fit: cover;">
-                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">📈 <strong>Cascada de Rendimiento:</strong> Un gráfico sencillo que te muestra si la selección viene subiendo su nivel o si está en racha de pérdidas antes de jugar.</div>
-              </div>
+                <!-- Slide 2: Marcadores probables -->
+                <div class="carousel-slide">
+                  <div class="app-mockup" aria-label="Los 5 marcadores más probables">
+                    <div class="mockup-header">⚽ Marcadores más probables</div>
+                    <div class="mockup-match">
+                      <div class="mockup-team"><span class="mockup-flag">🇦🇷</span> Argentina</div>
+                      <div class="mockup-vs">vs</div>
+                      <div class="mockup-team"><span class="mockup-flag">🇩🇪</span> Alemania</div>
+                    </div>
+                    <div class="mockup-scores">
+                      <div class="mockup-score-row"><span class="mockup-rank">#1</span><span class="mockup-result">1 – 0</span><span class="mockup-score-pct">18.3%</span></div>
+                      <div class="mockup-score-row"><span class="mockup-rank">#2</span><span class="mockup-result">1 – 1</span><span class="mockup-score-pct">15.7%</span></div>
+                      <div class="mockup-score-row"><span class="mockup-rank">#3</span><span class="mockup-result">2 – 1</span><span class="mockup-score-pct">12.4%</span></div>
+                      <div class="mockup-score-row"><span class="mockup-rank">#4</span><span class="mockup-result">0 – 1</span><span class="mockup-score-pct">11.8%</span></div>
+                      <div class="mockup-score-row"><span class="mockup-rank">#5</span><span class="mockup-result">2 – 0</span><span class="mockup-score-pct">9.1%</span></div>
+                    </div>
+                    <div class="mockup-footer">λ esperada: 1.45 – 0.98 · P(+2.5 goles): 38%</div>
+                  </div>
+                  <div class="carousel-caption"><strong>¿Qué marcador poner?</strong> &mdash; Los 5 resultados con mayor probabilidad matemática para llenar su polla.</div>
+                </div>
 
+                <!-- Slide 3: Stats comparison -->
+                <div class="carousel-slide">
+                  <div class="app-mockup" aria-label="Comparación de stats">
+                    <div class="mockup-header">📊 Comparación de selecciones</div>
+                    <div class="mockup-match">
+                      <div class="mockup-team"><span class="mockup-flag">🇪🇸</span> España</div>
+                      <div class="mockup-vs">vs</div>
+                      <div class="mockup-team"><span class="mockup-flag">🇫🇷</span> Francia</div>
+                    </div>
+                    <div class="mockup-stats">
+                      <div class="mockup-stat-row"><span class="mockup-val-l">2048</span><span class="mockup-metric">Elo</span><span class="mockup-val-r">2055</span></div>
+                      <div class="mockup-stat-row"><span class="mockup-val-l">85.2</span><span class="mockup-metric">Plantilla FIFA</span><span class="mockup-val-r">86.7</span></div>
+                      <div class="mockup-stat-row"><span class="mockup-val-l">1.80</span><span class="mockup-metric">Goles/partido</span><span class="mockup-val-r">2.10</span></div>
+                      <div class="mockup-stat-row"><span class="mockup-val-l">70%</span><span class="mockup-metric">Win rate (últ.10)</span><span class="mockup-val-r">80%</span></div>
+                    </div>
+                    <div class="mockup-footer">🔥 Francia favorita clara (52%) · +Elo +plantilla +ataque</div>
+                  </div>
+                  <div class="carousel-caption"><strong>Stats cara a cara</strong> &mdash; Elo, plantilla FIFA, goles, defensa y forma reciente lado a lado.</div>
+                </div>
+
+              </div>
             </div>
-
-            <div style="display: flex; justify-content: center; gap: 12px; padding: 16px 0; background: #08111a;">
-              <button onclick="usuarioMueveCarrusel(0)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: var(--green); cursor: pointer;" aria-label="Diapositiva 1"></button>
-              <button onclick="usuarioMueveCarrusel(1)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer;" aria-label="Diapositiva 2"></button>
-              <button onclick="usuarioMueveCarrusel(2)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer;" aria-label="Diapositiva 3"></button>
+            <div class="carousel-progress"><div class="carousel-progress-bar" id="carousel-progress"></div></div>
+            <div class="carousel-controls" id="carousel-controls">
+              <button class="carousel-dot active" data-index="0" aria-label="Diapositiva 1"></button>
+              <button class="carousel-dot" data-index="1" aria-label="Diapositiva 2"></button>
+              <button class="carousel-dot" data-index="2" aria-label="Diapositiva 3"></button>
             </div>
           </aside>
-
-          <script>
-            let indiceActual = 0;
-            const totalDiapositivas = 3;
-            let intervaloCarrusel;
-
-            function actualizarBotones(index) {
-              const track = document.getElementById('carrusel-track');
-              if(!track) return;
-              const botones = track.nextElementSibling.querySelectorAll('button');
-              botones.forEach((btn, i) => {
-                btn.style.background = i === index ? 'var(--green)' : 'rgba(255, 255, 255, 0.3)';
-              });
-            }
-
-            function moverCarrusel(index) {
-              const track = document.getElementById('carrusel-track');
-              if(!track) return;
-              const slideWidth = track.offsetWidth;
-              track.scrollTo({ left: slideWidth * index, behavior: 'smooth' });
-              indiceActual = index;
-              actualizarBotones(index);
-            }
-
-            function autoRotar() {
-              indiceActual = (indiceActual + 1) % totalDiapositivas;
-              moverCarrusel(indiceActual);
-            }
-
-            intervaloCarrusel = setInterval(autoRotar, 4000);
-
-            function usuarioMueveCarrusel(index) {
-              clearInterval(intervaloCarrusel); 
-              moverCarrusel(index);
-            }
-
-            window.addEventListener('resize', () => moverCarrusel(indiceActual));
-          </script>
-          </div>
+        </div>
       </section>
 
+      <!-- ── Trust strip ── -->
+      <div class="trust-strip">
+        <div class="wrap" style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:center;">
+          <span class="trust-item">&#9889; Machine Learning avanzado</span>
+          <span class="trust-item">&#128202; Datos actualizados cada partido</span>
+          <span class="trust-item">&#128274; Pago seguro PSE</span>
+          <span class="trust-item">&#128241; Funciona en celular y PC</span>
+        </div>
+      </div>
+
+      <!-- ── Benefits ── -->
       <section class="section" id="beneficios">
         <div class="wrap">
-          <h2>La ventaja matemática en sus manos.</h2>
-          <p class="section-lead">GolIA simplifica algoritmos avanzados de Machine Learning y los traduce en respuestas directas para que gane sus pollas de la oficina o familiares.</p>
+          <div class="section-header reveal">
+            <div class="section-tag">Beneficios</div>
+            <h2>La ventaja matemática en sus manos.</h2>
+            <p class="section-lead">GoliA simplifica algoritmos avanzados de Machine Learning y los traduce en respuestas directas para que gane sus pollas.</p>
+          </div>
           <div class="cards">
-            <article class="card">
+            <article class="card reveal reveal-delay-1">
+              <div class="card-icon">&#127919;</div>
               <h3>Porcentajes Claros (1X2)</h3>
               <p>Nada de datos confusos. La IA suma todas las variables del partido y te da tres porcentajes sencillos: probabilidad de ganar, empatar o perder.</p>
             </article>
-            <article class="card">
+            <article class="card reveal reveal-delay-2">
+              <div class="card-icon">&#9917;</div>
               <h3>Los 5 Marcadores más Probables</h3>
-              <p>¿No sabe si poner un 2-1 o un 1-0? La aplicación le filtra de forma inteligente cuáles son los 5 marcadores exactos con mayor probabilidad matemática.</p>
+              <p>¿No sabe si poner un 2-1 o un 1-0? La aplicación le filtra cuáles son los 5 marcadores exactos con mayor probabilidad matemática.</p>
             </article>
-            <article class="card">
+            <article class="card reveal reveal-delay-3">
+              <div class="card-icon">&#127942;</div>
               <h3>Simulador de Campeón</h3>
               <p>Nuestros servidores simulan el Mundial completo miles de veces por segundo para mostrarle qué países tienen el camino más limpio hacia la final.</p>
             </article>
@@ -254,78 +984,207 @@
         </div>
       </section>
 
+      <!-- ── How it works ── -->
       <section class="section about" id="como-funciona">
         <div class="wrap about-grid">
           <div>
-            <h2>¿Cómo funciona GolIA detrás de cámaras?</h2>
-            <p class="section-lead">Es un software que recopila las estadísticas complejas del fútbol (goles esperados, calidad de los jugadores en videojuegos, días de descanso y fatiga física) y las mete a una supercomputadora algorítmica para escupir resultados lógicos y ordenados.</p>
+            <div class="section-header reveal">
+              <div class="section-tag">Cómo funciona</div>
+              <h2>GoliA detrás de cámaras</h2>
+              <p class="section-lead">Un software que recopila estadísticas complejas del fútbol (goles esperados, nivel de los jugadores, fatiga física) y las procesa con algoritmos para escupir resultados lógicos y ordenados.</p>
+            </div>
             <div class="steps">
-              <article class="step">
-                <span>1</span>
-                <h3>Adquiera su cupo</h3>
-                <p>Realiza un pago único y económico de $20.000 COP a través de PSE.</p>
+              <article class="step reveal reveal-delay-1">
+                <div class="step-num">1</div>
+                <div>
+                  <h3>Compre su acceso beta</h3>
+                  <p>Solo $20.000 COP en preventa. Después del Mundial sube a $30.000. Pague por llave @cisefa o Nequi 3124565617.</p>
+                </div>
               </article>
-              <article class="step">
-                <span>2</span>
-                <h3>Abra la aplicación</h3>
-                <p>Ingresa de inmediato desde tu celular o computadora sin instalar cosas raras.</p>
+              <article class="step reveal reveal-delay-2">
+                <div class="step-num">2</div>
+                <div>
+                  <h3>Envíe el comprobante</h3>
+                  <p>Mande el comprobante al WhatsApp 3124565617 y se activa su cuenta.</p>
+                </div>
               </article>
-              <article class="step">
-                <span>3</span>
-                <h3>Copie y gane</h3>
-                <p>Mira los datos limpios antes de cada partido, llena tu formulario de polla y disfruta el torneo con criterio de experto.</p>
+              <article class="step reveal reveal-delay-3">
+                <div class="step-num">3</div>
+                <div>
+                  <h3>Abra la app y gane</h3>
+                  <p>Revise los datos antes de cada partido desde celular o PC, llene su polla y disfrute el torneo con criterio de experto.</p>
+                </div>
               </article>
             </div>
           </div>
           <div class="stat-list" aria-label="Módulos del Motor Analítico">
-            <div class="stat"><strong>Filtro de Fechas</strong><span>Busque cualquier partido del Mundial por día de forma rápida.</span></div>
-            <div class="stat"><strong>Datos sin Enredos</strong><span>Gráficos interactivos diseñados para entenderse en 10 segundos.</span></div>
-            <div class="stat"><strong>Actualizaciones en Vivo</strong><span>La IA aprende de cada partido jugado y recalcula las fases finales al instante.</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="faq">
-        <div class="wrap">
-          <h2>Preguntas frecuentes sin tecnicismos</h2>
-          <div class="faq">
-            <details>
-              <summary>¿Tengo que saber de matemáticas o analítica para usarlo?</summary>
-              <p>Para nada. El trabajo duro lo hace nuestra Inteligencia Artificial. A usted solo le mostramos los resultados finales en barras sencillas, porcentajes claros (como 65% de probabilidad de ganar) y listas del 1 al 5 con los marcadores más lógicos.</p>
-            </details>
-            <details>
-              <summary>¿De dónde saca la información la IA?</summary>
-              <p>El algoritmo lee el historial de los últimos años de cada selección, los goles anotados, la dificultad de sus rivales anteriores y el nivel real de los futbolistas convocados.</p>
-            </details>
-            <details>
-              <summary>¿Esto es una casa de apuestas o una polla?</summary>
-              <p>No. GolIA es estrictamente un software inteligente de consulta. Nosotros no recibimos apuestas ni organizamos torneos. Somos la calculadora científica que usted mira para saber qué poner en sus pollas del trabajo o amigos.</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="section offer" id="acceso">
-        <div class="wrap offer-grid">
-          <div>
-            <h2>Póngale Inteligencia Artificial a sus resultados</h2>
-            <p>Asegure su licencia de acceso permanente para todo el Mundial 2026. Use la ciencia de datos a su favor por el precio de un combo de hamburguesa.</p>
-            <div class="actions">
-              <a class="button" href="https://linkdepagospse.rappipay.co/rlgNsG" target="_blank" rel="noopener noreferrer">Comprar Acceso Completo (PSE)</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Ver Demo de la App</a>
+            <div class="stat reveal reveal-delay-1">
+              <div class="stat-icon">&#128197;</div>
+              <strong>Filtro de Fechas</strong>
+              <span>Busque cualquier partido del Mundial por día de forma rápida.</span>
+            </div>
+            <div class="stat reveal reveal-delay-2">
+              <div class="stat-icon">&#128200;</div>
+              <strong>Datos sin Enredos</strong>
+              <span>Gráficos interactivos diseñados para entenderse en 10 segundos.</span>
+            </div>
+            <div class="stat reveal reveal-delay-3">
+              <div class="stat-icon">&#9889;</div>
+              <strong>Actualizaciones en Vivo</strong>
+              <span>La IA aprende de cada partido jugado y recalcula las fases finales al instante.</span>
             </div>
           </div>
-          <div class="offer-price">
+        </div>
+      </section>
+
+      <!-- ── FAQ ── -->
+      <section class="section" id="faq">
+        <div class="wrap">
+          <div class="section-header reveal">
+            <div class="section-tag">Preguntas frecuentes</div>
+            <h2>Sin tecnicismos</h2>
+          </div>
+          <div class="faq">
+            <details class="reveal reveal-delay-1">
+              <summary>¿Tengo que saber de matemáticas o analítica para usarlo?</summary>
+              <p class="faq-body">Para nada. El trabajo duro lo hace nuestra Inteligencia Artificial. A usted solo le mostramos los resultados finales en barras sencillas, porcentajes claros (como 65% de probabilidad de ganar) y listas del 1 al 5 con los marcadores más lógicos.</p>
+            </details>
+            <details class="reveal reveal-delay-2">
+              <summary>¿De dónde saca la información la IA?</summary>
+              <p class="faq-body">El algoritmo lee el historial de los últimos años de cada selección, los goles anotados, la dificultad de sus rivales anteriores y el nivel real de los futbolistas convocados.</p>
+            </details>
+            <details class="reveal reveal-delay-3">
+              <summary>¿Esto es una casa de apuestas o una polla?</summary>
+              <p class="faq-body">No. GoliA es estrictamente un software inteligente de consulta. Nosotros no recibimos apuestas ni organizamos torneos. Somos la calculadora científica que usted mira para saber qué poner en sus pollas del trabajo o amigos.</p>
+            </details>
+            <details class="reveal">
+              <summary>¿Cómo compro?</summary>
+              <p class="faq-body">Pague a la llave @cisefa o por Nequi al 3124565617 y envíe el comprobante al WhatsApp 3124565617. Si necesita link de pago, escríbanos a ese mismo WhatsApp.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CTA ── -->
+      <section class="section offer" id="acceso">
+        <div class="wrap offer-grid">
+          <div class="reveal">
+            <div class="section-tag" style="color: rgba(255,255,255,0.4);">Acceso</div>
+            <h2>Póngale Inteligencia Artificial a sus resultados</h2>
+            <p class="section-lead">Acceso beta a precio de preventa. Pague a la llave @cisefa o por Nequi y envíe el comprobante al WhatsApp 3124565617. Después sube a $30.000.</p>
+            <div class="hero-actions" style="margin-top: 24px;">
+              <a class="btn btn-secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Ver Demo de la App</a>
+            </div>
+          </div>
+          <div class="offer-card reveal reveal-delay-2">
             <strong>$20.000</strong>
-            <span>COP pago único</span>
-            <span>Acceso ilimitado durante todo el torneo de fútbol</span>
+            <span class="offer-label">COP precio beta</span>
+            <span class="offer-desc">Acceso ilimitado durante todo el Mundial · después $30.000</span>
+            <a class="btn btn-primary" href="https://wa.me/573124565617?text=Hola%2C%20quiero%20comprar%20el%20acceso%20a%20GoliA.%20Voy%20a%20pagar%20por%20llave%20%40cisefa%20o%20Nequi.%20Te%20envio%20el%20comprobante%20por%20aca%3F" target="_blank" rel="noopener noreferrer">Comprar / enviar comprobante &rarr;</a>
           </div>
         </div>
       </section>
     </main>
 
+    <!-- ── Footer ── -->
     <footer>
-      <div class="wrap">GolIA es un desarrollo tecnológico independiente de analítica de datos y software predictivo. No tiene relación oficial con FIFA. Úselo de forma recreativa e informativa.</div>
+      <div class="wrap footer-content">
+        <div>
+          <div class="footer-brand">Gol<span>iA</span></div>
+          <p class="footer-text">GoliA es un desarrollo tecnológico independiente de analítica de datos y software predictivo. No tiene relación oficial con FIFA. Úselo de forma recreativa e informativa.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#beneficios">Beneficios</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://instagram.com/goliaoficial" target="_blank" rel="noopener noreferrer" class="footer-social" aria-label="Instagram GoliA">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+            @goliaoficial
+          </a>
+        </div>
+      </div>
     </footer>
+
+    <script>
+      // ── Scroll reveal ──
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // ── Sticky nav scroll effect ──
+      const topbar = document.getElementById('topbar');
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            topbar.classList.toggle('scrolled', window.scrollY > 40);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // ── Carousel ──
+      const track = document.getElementById('carousel-track');
+      const dots = document.querySelectorAll('.carousel-dot');
+      const progressBar = document.getElementById('carousel-progress');
+      const TOTAL = 3;
+      const INTERVAL = 5000;
+      let current = 0;
+      let timer;
+      let progressAnim;
+
+      function goTo(i) {
+        current = i;
+        track.style.transform = 'translateX(-' + (i * 100) + '%)';
+        dots.forEach(function(d, idx) { d.classList.toggle('active', idx === i); });
+        resetProgress();
+      }
+
+      function next() {
+        goTo((current + 1) % TOTAL);
+      }
+
+      function resetProgress() {
+        clearTimeout(timer);
+        cancelAnimationFrame(progressAnim);
+        progressBar.style.width = '0%';
+
+        var start = performance.now();
+        function tick(now) {
+          var elapsed = now - start;
+          var pct = Math.min((elapsed / INTERVAL) * 100, 100);
+          progressBar.style.width = pct + '%';
+          if (pct < 100) {
+            progressAnim = requestAnimationFrame(tick);
+          }
+        }
+        progressAnim = requestAnimationFrame(tick);
+        timer = setTimeout(next, INTERVAL);
+      }
+
+      dots.forEach(function(d) {
+        d.addEventListener('click', function() { goTo(+d.dataset.index); });
+      });
+
+      // Touch swipe
+      var touchX = 0;
+      track.addEventListener('touchstart', function(e) { touchX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        var diff = touchX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          diff > 0 ? goTo(Math.min(current + 1, TOTAL - 1)) : goTo(Math.max(current - 1, 0));
+        }
+      }, { passive: true });
+
+      resetProgress();
+    </script>
   </body>
 </html>
