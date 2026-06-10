@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GolIA - Mundial 2026 con datos y simulaciones</title>
-    <meta name="description" content="GolIA es una herramienta para armar pollas futboleras del Mundial 2026 con modelos predictivos, datos, probabilidades y simulaciones. Acceso beta por $20.000 COP.">
+    <title>GolIA - Antes del partido, mire qué dicen los datos</title>
+    <meta name="description" content="Consulte probabilidades, favoritos, simulaciones y escenarios del Mundial 2026 para hacer mejores pronósticos, llenar su polla o debatir cada partido con datos.">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="GolIA - Mundial 2026 con datos y simulaciones">
-    <meta property="og:description" content="Herramienta para pollas futboleras del Mundial 2026 con probabilidades, favoritos, escenarios y simulaciones. Beta por $20.000 COP.">
+    <meta property="og:title" content="GolIA - Antes del partido, mire qué dicen los datos">
+    <meta property="og:description" content="Consulte probabilidades, favoritos, simulaciones y escenarios del Mundial 2026 para hacer mejores pronósticos, llenar su polla o debatir con datos.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_CO">
     <meta name="twitter:card" content="summary_large_image">
@@ -67,11 +67,10 @@
 
       .logo { font-size: clamp(34px, 5vw, 60px); font-weight: 950; line-height: 0.95; }
       .logo span { color: var(--green); }
-      .hero-tagline { display: block; margin-top: 18px; font-size: clamp(20px, 3vw, 32px); color: var(--gold); font-weight: 800; line-height: 1.1; }
       .eyebrow { display: inline-flex; width: fit-content; margin-top: clamp(24px, 3vw, 42px); border-radius: 999px; padding: 8px 12px; background: rgba(29, 226, 122, 0.16); color: #68ffad; font-size: 12px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
 
-      h1 { max-width: 760px; margin-top: 14px; font-size: clamp(36px, 5.5vw, 68px); line-height: 1.05; font-weight: 950; }
-      .lead { max-width: 620px; margin-top: 18px; color: rgba(255, 255, 255, 0.8); font-size: clamp(16px, 1.7vw, 21px); line-height: 1.48; }
+      h1 { max-width: 760px; margin-top: 14px; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; font-weight: 950; }
+      .lead { max-width: 620px; margin-top: 18px; color: rgba(255, 255, 255, 0.85); font-size: clamp(16px, 1.6vw, 19px); line-height: 1.5; }
 
       .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
       .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 6px; padding: 13px 18px; background: var(--green); color: #06100a; font-weight: 950; text-decoration: none; cursor: pointer; }
@@ -80,67 +79,6 @@
       .price { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; margin-top: 28px; }
       .price strong { color: var(--gold); font-size: clamp(42px, 6vw, 72px); line-height: 0.9; font-weight: 950; }
       .price span { color: rgba(255, 255, 255, 0.72); font-weight: 850; }
-
-      /* ========================================================
-         CARRUSEL RECREADO EN HTML/CSS NATIIVO (MOCKUP STREAMLIT)
-         ======================================================== */
-      .app-mockup {
-        background: #08111a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px;
-        overflow: hidden; box-shadow: 0 30px 90px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-      }
-      .mockup-header {
-        background: #0b1622; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex; justify-content: space-between; align-items: center;
-      }
-      .mockup-dots { display: flex; gap: 6px; }
-      .mockup-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); }
-      .mockup-tab { font-size: 11px; font-weight: 900; text-transform: uppercase; background: rgba(29, 226, 122, 0.12); color: var(--green); padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; }
-      
-      .slider-wrapper { display: flex; overflow-x: auto; snap-type: x mandatory; scroll-behavior: smooth; }
-      .slider-wrapper::-webkit-scrollbar { display: none; }
-      .slider-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
-      
-      .slide { min-width: 100%; flex-shrink: 0; snap-align: start; padding: 24px; background: #08111a; display: flex; flex-direction: column; gap: 20px; }
-      
-      /* Slide 1: Ensemble J */
-      .ensemble-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-      .ensemble-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-      .ensemble-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 14px; border-radius: 8px; text-align: center; }
-      .ensemble-box label { font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 4px; }
-      .ensemble-box .value { font-size: 26px; font-weight: 900; color: #fff; }
-      .ensemble-box .cuota { display: inline-flex; background: rgba(29, 226, 122, 0.15); color: var(--green); font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-top: 4px; }
-      
-      .xg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; }
-      .xg-box { text-align: center; }
-      .xg-box label { font-size: 11px; color: rgba(255,255,255,0.5); display: block; }
-      .xg-box .xg-val { font-size: 32px; font-weight: 900; color: var(--white); }
-
-      /* Slide 2: Top 5 Marcadores */
-      .table-container { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.01); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-      .table-row { display: grid; grid-template-columns: 1fr auto; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); align-items: center; }
-      .table-row.header { background: rgba(255,255,255,0.04); font-weight: 800; color: rgba(255,255,255,0.7); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-      .table-cell-name { color: #fff; font-weight: 700; font-size: 14px; }
-      .table-cell-pct { color: var(--gold); font-weight: 900; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-      .table-cell-pct::after { content: ''; display: block; width: 40px; height: 6px; background: rgba(240, 200, 87, 0.2); border-radius: 3px; overflow: hidden; }
-      #row1 .table-cell-pct::after { background: linear-gradient(90deg, var(--gold) 100%, transparent 0); }
-      #row2 .table-cell-pct::after { background: linear-gradient(90deg, var(--gold) 76%, transparent 0); }
-      #row3 .table-cell-pct::after { background: linear-gradient(90deg, var(--gold) 70%, transparent 0); }
-      #row4 .table-cell-pct::after { background: linear-gradient(90deg, var(--gold) 68%, transparent 0); }
-      #row5 .table-cell-pct::after { background: linear-gradient(90deg, var(--gold) 61%, transparent 0); }
-
-      /* Slide 3: Distribución Goles */
-      .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 140px; padding: 10px 0; border-bottom: 2px solid rgba(255,255,255,0.1); margin-top: 10px; }
-      .chart-bar-wrapper { display: flex; flex-direction: column; align-items: center; flex: 1; }
-      .chart-bar { width: 70%; background: var(--blue); border-radius: 4px 4px 0 0; position: relative; transition: height 0.5s; min-height: 4px; }
-      .chart-bar:hover { background: var(--green); }
-      .chart-val { font-size: 10px; color: rgba(255,255,255,0.8); margin-bottom: 4px; font-weight: 700; }
-      .chart-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; font-weight: bold; }
-
-      .slide-caption { padding: 12px 24px; background: #0b1622; color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); }
-      .slider-nav { display: flex; justify-content: center; gap: 8px; padding: 12px 0; background: #08111a; }
-      .slider-nav a { display: block; width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); text-decoration: none; }
-      .slider-nav a:hover, .slider-nav a:focus { background: var(--green); }
-      /* ======================================================== */
 
       .section { padding: clamp(34px, 6vw, 72px) 0; }
       .section h2 { max-width: 760px; font-size: clamp(28px, 4vw, 46px); line-height: 1.02; }
@@ -211,138 +149,102 @@
         <div class="wrap hero-grid" id="hero-main">
           <div>
             <div class="logo">Gol<span>IA</span></div>
-            <span class="eyebrow">Modelos predictivos + datos + simulaciones</span>
-            <h1>Polla Mundial 2026 con Inteligencia Artificial</h1>
-            <span class="hero-tagline">Antes del partido, mira qué dice GolIA.</span>
-            <p class="lead">Herramienta para armar mejores pollas futboleras del Mundial 2026 con probabilidades por partido, ranking de favoritos, simulaciones del torneo y escenarios actualizados.</p>
+            <span class="eyebrow">Históricos + Modelos Predictivos + Algoritmos</span>
+            <h1>Antes del partido, mire qué dicen los datos de GolIA.</h1>
+            <p class="lead">Consulte probabilidades, favoritos, simulaciones y escenarios del Mundial 2026 para hacer mejores pronósticos, llenar su polla o debatir cada partido con datos.</p>
             <div class="actions">
               <a class="button" href="https://linkdepagospse.rappipay.co/rlgNsG" target="_blank" rel="noopener noreferrer">Quiero acceso beta</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Abrir herramienta</a>
+              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Abrir app web</a>
             </div>
             <div class="price">
               <strong>$20.000</strong>
-              <span>COP beta - pago único - cupos iniciales</span>
+              <span>COP beta - pago único - cupos limitados</span>
             </div>
           </div>
 
           <!-- ========================================================
-               MOCKUP DIGITAL EN VIVO DE TU STREAMLIT (CARRUSEL HTML/CSS)
+               CARRUSEL INTERACTIVO CON MOVIMIENTO AUTOMÁTICO
                ======================================================== -->
-          <aside class="app-mockup" aria-label="Simulación en vivo de los datos de GolIA">
-            <div class="mockup-header">
-              <div class="mockup-dots"><span></span><span></span><span></span></div>
-              <div class="mockup-tab">Predicción en producción</div>
+          <aside class="slider-container" style="background: #08111a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 90px rgba(0,0,0,0.5); display: flex; flex-direction: column;">
+            <div style="background: #0b1622; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; gap: 6px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
+              </div>
+              <div style="font-size: 11px; font-weight: 900; text-transform: uppercase; background: rgba(29, 226, 122, 0.12); color: var(--green); padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em;">Panel de Control de la App</div>
             </div>
             
-            <div class="slider-wrapper">
-              <!-- Slide 1: Ensemble J -->
-              <div class="slide" id="slide-1">
-                <div class="ensemble-title">🏆 Ensemble J — El Modelo Activo</div>
-                <div class="ensemble-grid">
-                  <div class="ensemble-box">
-                    <label>Colombia gana</label>
-                    <div class="value">37.3%</div>
-                    <div class="cuota">↑ justa 2.68</div>
-                  </div>
-                  <div class="ensemble-box">
-                    <label>Empate</label>
-                    <div class="value">28.4%</div>
-                    <div class="cuota">↑ justa 3.52</div>
-                  </div>
-                  <div class="ensemble-box">
-                    <label>Portugal gana</label>
-                    <div class="value">34.3%</div>
-                    <div class="cuota">↑ justa 2.91</div>
-                  </div>
-                </div>
-                <div class="xg-row">
-                  <div class="xg-box">
-                    <label>xG Colombia</label>
-                    <div class="xg-val">1.17</div>
-                  </div>
-                  <div class="xg-box">
-                    <label>xG Portugal</label>
-                    <div class="xg-val">1.28</div>
-                  </div>
-                </div>
-              </div>
+            <!-- Contenedor de las imágenes con scrollbar oculto -->
+            <div id="carrusel-track" style="display: flex; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;">
               
-              <!-- Slide 2: Top 5 Marcadores Probables -->
-              <div class="slide" id="slide-2">
-                <div class="ensemble-title">🥇 Marcadores más probables</div>
-                <div class="table-container">
-                  <div class="table-row header">
-                    <div>Marcador exacto</div>
-                    <div>Probabilidad (P)</div>
-                  </div>
-                  <div class="table-row" id="row1">
-                    <div class="table-cell-name">Colombia 1 - 1 Portugal</div>
-                    <div class="table-cell-pct">13.6%</div>
-                  </div>
-                  <div class="table-row" id="row2">
-                    <div class="table-cell-name">Colombia 0 - 1 Portugal</div>
-                    <div class="table-cell-pct">10.4%</div>
-                  </div>
-                  <div class="table-row" id="row3">
-                    <div class="table-cell-name">Colombia 1 - 0 Portugal</div>
-                    <div class="table-cell-pct">9.5%</div>
-                  </div>
-                  <div class="table-row" id="row4">
-                    <div class="table-cell-name">Colombia 0 - 0 Portugal</div>
-                    <div class="table-cell-pct">9.3%</div>
-                  </div>
-                  <div class="table-row" id="row5">
-                    <div class="table-cell-name">Colombia 1 - 2 Portugal</div>
-                    <div class="table-cell-pct">8.3%</div>
-                  </div>
-                </div>
+              <!-- Imagen 1: Predicción general -->
+              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
+                <img src="01-prediccion.png" alt="Probabilidad de resultados" style="width: 100%; height: auto; display: block; object-fit: contain;">
+                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">🏆 Porcentajes Predictivos: Probabilidad exacta de Victoria, Empate y Derrota por juego.</div>
               </div>
 
-              <!-- Slide 3: Distribución de Goles Totales -->
-              <div class="slide" id="slide-3">
-                <div class="ensemble-title">⚽ Distribución de goles totales</div>
-                <div class="chart-container">
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val">9.3%</div>
-                    <div class="chart-bar" style="height: 35%;"></div>
-                    <div class="chart-label">0</div>
-                  </div>
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val">19.9%</div>
-                    <div class="chart-bar" style="height: 75%;"></div>
-                    <div class="chart-label">1</div>
-                  </div>
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val" style="color:var(--gold);">26.6%</div>
-                    <div class="chart-bar" style="height: 100%; background:var(--gold);"></div>
-                    <div class="chart-label" style="color:var(--gold);">2</div>
-                  </div>
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val">21.2%</div>
-                    <div class="chart-bar" style="height: 80%;"></div>
-                    <div class="chart-label">3</div>
-                  </div>
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val">12.9%</div>
-                    <div class="chart-bar" style="height: 48%;"></div>
-                    <div class="chart-label">4</div>
-                  </div>
-                  <div class="chart-bar-wrapper">
-                    <div class="chart-val">6.3%</div>
-                    <div class="chart-bar" style="height: 24%;"></div>
-                    <div class="chart-label">5</div>
-                  </div>
-                </div>
+              <!-- Imagen 2: Goles y Ambos Anotan (¡Cambio hecho!) -->
+              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
+                <img src="02-goles.png" alt="Líneas de goles y ambos anotan" style="width: 100%; height: auto; display: block; object-fit: contain;">
+                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">📊 Métrica de Goles: Cálculo de Más/Menos 2.5 goles y probabilidad de que ambos anoten.</div>
               </div>
+
+              <!-- Imagen 3: Rendimiento en cascada por equipo (¡Añadido!) -->
+              <div style="min-width: 100%; scroll-snap-align: start; flex-shrink: 0;">
+                <img src="03-cascada.png" alt="Rendimiento en cascada por selección" style="width: 100%; height: auto; display: block; object-fit: contain;">
+                <div style="padding: 14px 24px; background: #0b1622; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.06);">📈 Cascada de Rendimiento: Historial y tendencias de xG acumulado por equipo.</div>
+              </div>
+
             </div>
 
-            <div class="slide-caption">👈 Desliza sobre los datos para ver variables del modelo</div>
-            <div class="slider-nav">
-              <a href="#slide-1" aria-label="Modelo Principal"></a>
-              <a href="#slide-2" aria-label="Marcadores exactos"></a>
-              <a href="#slide-3" aria-label="Goles totales"></a>
+            <!-- Botones de navegación interactivos -->
+            <div style="display: flex; justify-content: center; gap: 12px; padding: 16px 0; background: #08111a;">
+              <button onclick="usuarioMueveCarrusel(0)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: var(--green); cursor: pointer;" aria-label="Diapositiva 1"></button>
+              <button onclick="usuarioMueveCarrusel(1)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer;" aria-label="Diapositiva 2"></button>
+              <button onclick="usuarioMueveCarrusel(2)" style="width: 12px; height: 12px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer;" aria-label="Diapositiva 3"></button>
             </div>
           </aside>
+
+          <script>
+            let indiceActual = 0;
+            const totalDiapositivas = 3;
+            let intervaloCarrusel;
+
+            function actualizarBotones(index) {
+              const track = document.getElementById('carrusel-track');
+              const botones = track.nextElementSibling.querySelectorAll('button');
+              botones.forEach((btn, i) => {
+                btn.style.background = i === index ? 'var(--green)' : 'rgba(255, 255, 255, 0.3)';
+              });
+            }
+
+            function moverCarrusel(index) {
+              const track = document.getElementById('carrusel-track');
+              const slideWidth = track.offsetWidth;
+              track.scrollTo({ left: slideWidth * index, behavior: 'smooth' });
+              indiceActual = index;
+              actualizarBotones(index);
+            }
+
+            // Función automática para rotar
+            function autoRotar() {
+              indiceActual = (indiceActual + 1) % totalDiapositivas;
+              moverCarrusel(indiceActual);
+            }
+
+            // Inicia el movimiento automático cada 4 segundos (4000ms)
+            intervaloCarrusel = setInterval(autoRotar, 4000);
+
+            // Si el usuario da clic en un botón, se detiene el auto-play para respetar su lectura
+            function usuarioMueveCarrusel(index) {
+              clearInterval(intervaloCarrusel); 
+              moverCarrusel(index);
+            }
+
+            // Ajustar el ancho en caso de redimensión de pantalla
+            window.addEventListener('resize', () => moverCarrusel(indiceActual));
+          </script>
           <!-- ======================================================== -->
 
         </div>
@@ -350,20 +252,20 @@
 
       <section class="section" id="beneficios">
         <div class="wrap">
-          <h2>Vive el Mundial con lectura previa, no con promesas mágicas.</h2>
-          <p class="section-lead">GolIA está hecho para mirar partidos con más contexto: probabilities, escenarios y datos claros para conversar antes de que ruede la pelota.</p>
+          <h2>Tome decisiones informadas, no basadas en el corazón.</h2>
+          <p class="section-lead">GolIA le entrega el respaldo matemático que necesita para llenar sus apuestas o pollas familiares, comerciales o de oficina con total criterio estadístico.</p>
           <div class="cards">
             <article class="card">
-              <h3>Probabilidades por partido</h3>
-              <p>Compara favorito, empate y rival antes de cada juego con estimaciones del modelo.</p>
+              <h3>Inteligencia por partido</h3>
+              <p>Compare probabilidades reales de victoria, empate y derrota calculadas con millones de datos de historial deportivo de las selecciones.</p>
             </article>
             <article class="card">
-              <h3>Simulaciones del torneo</h3>
-              <p>Revisa escenarios, caminos al título y cambios de favoritos durante el Mundial.</p>
+              <h3>Filtro de Marcadores</h3>
+              <p>Vea cuáles son los 5 marcadores exactos con mayor probabilidad matemática de ocurrir para optimizar la toma de decisiones.</p>
             </article>
             <article class="card">
-              <h3>Datos para conversar</h3>
-              <p>Insights claros para pollas, grupos, oficina, familia y contenido sin prometer apuestas seguras.</p>
+              <h3>Simulador de Torneo</h3>
+              <p>Monitoree qué selecciones tienen el camino estadístico más limpio hacia la final a medida que avanza el Mundial.</p>
             </article>
           </div>
         </div>
@@ -372,57 +274,53 @@
       <section class="section about" id="como-funciona">
         <div class="wrap about-grid">
           <div>
-            <h2>Qué es GolIA</h2>
-            <p class="section-lead">GolIA Mundial 2026 es una herramienta de entretenimiento y análisis futbolero para tomar mejores decisiones en pollas y quinielas. Combina datos, modelos predictivos y simulaciones para estimar escenarios del torneo sin prometer resultados exactos.</p>
+            <h2>¿Qué es exactamente GolIA?</h2>
+            <p class="section-lead">Es un <strong>software web analítico de consulta</strong>. No somos una casa de apuestas, ni organizamos juegos de azar ni administramos pollas futboleras colectivas. Somos la calculadora inteligente que usted consulta en su celular para saber con precisión técnica qué resultados poner en las pollas que juega con sus conocidos.</p>
             <div class="steps">
               <article class="step">
                 <span>1</span>
-                <h3>Compra acceso beta</h3>
-                <p>Pago único de $20.000 COP durante preventa. Paga por llave @cisefa o Nequi.</p>
+                <h3>Adquiera su licencia</h3>
+                <p>Pago único de $20.000 COP durante la fase de preventa inicial por PSE o Nequi.</p>
               </article>
               <article class="step">
                 <span>2</span>
-                <h3>Autoriza tu correo</h3>
-                <p>Envía el comprobante al 3124565617 y se activa tu cuenta de Google.</p>
+                <h3>Active su correo</h3>
+                <p>Envía el comprobante al WhatsApp y autorizamos tu cuenta de Google para el ingreso instantáneo.</p>
               </article>
               <article class="step">
                 <span>3</span>
-                <h3>Lee el Mundial</h3>
-                <p>Revisa partidos, favoritos, simulaciones y caminos al título.</p>
+                <h3>Consulte y analice</h3>
+                <p>Abra la app antes de rellenar sus planillas o registrar apuestas y use la ventaja de los modelos de datos.</p>
               </article>
             </div>
           </div>
-          <div class="stat-list" aria-label="Elementos incluidos en GolIA">
-            <div class="stat"><strong>Partidos</strong><span>Probabilidad estimada de victoria, empate y derrota.</span></div>
-            <div class="stat"><strong>Favoritos</strong><span>Ranking de selecciones con lectura actualizada del torneo.</span></div>
-            <div class="stat"><strong>Simulaciones</strong><span>Escenarios del Mundial y caminos posibles hacia el título.</span></div>
+          <div class="stat-list" aria-label="Herramientas de consulta incluidas">
+            <div class="stat"><strong>Filtro de Fechas</strong><span>Probabilidades dinámicas juego por juego actualizadas.</span></div>
+            <div class="stat"><strong>Top Marcadores</strong><span>Listado inteligente con la probabilidad exacta de resultados.</span></div>
+            <div class="stat"><strong>Simulación Pro</strong><span>Estructura de caminos lógicos al título del 2026.</span></div>
           </div>
         </div>
       </section>
 
       <section class="section" id="faq">
         <div class="wrap">
-          <h2>Preguntas rápidas</h2>
+          <h2>Preguntas frecuentes</h2>
           <div class="faq">
             <details>
-              <summary>¿GolIA predice resultados exactos?</summary>
-              <p>No. GolIA estima probabilidades y escenarios con datos y modelos predictivos. No garantiza marcadores ni resultados reales.</p>
+              <summary>¿Ustedes organizan la polla o pagan premios?</summary>
+              <p>No. Nosotros NO organizamos pollas, quinielas, ni torneos de apuestas, ni recolectamos dinero para premios grupales. GolIA es estrictamente un software de datos. Usted compra acceso a la aplicación para usar la información en sus propias pollas externas de la oficina, amigos o familiares.</p>
             </details>
             <details>
-              <summary>¿GolIA sirve para pollas o quinielas?</summary>
-              <p>Sí. GolIA ayuda a comparar picks con probabilidades, favoritos y escenarios simulados. No promete dinero, marcadores exactos ni apuestas seguras.</p>
+              <summary>¿GolIA garantiza que voy a acertar el 100% de los partidos?</summary>
+              <p>No existe ningún sistema que prediga el futuro con certeza absoluta. GolIA minimiza el factor "adivinación" dándole las probabilidades matemáticas reales basadas en analítica e históricos para que tome decisiones mucho más inteligentes y estratégicas.</p>
             </details>
             <details>
-              <summary>¿Qué recibo con el acceso beta?</summary>
-              <p>Acceso a la herramienta con probabilidades por partido, favoritos, simulaciones, probabilidad de campeón e insights del torneo.</p>
+              <summary>¿Qué obtengo al comprar el acceso beta?</summary>
+              <p>Acceso completo e ilimitado durante todo el torneo a nuestra aplicación web de Streamlit, donde podrá consultar las estadísticas de cada partido del Mundial 2026, los marcadores más óptimos y proyecciones de campeones.</p>
             </details>
             <details>
-              <summary>¿Cuánto cuesta?</summary>
-              <p>La beta cuesta $20.000 COP como pago único. Luego sube a $30.000 COP en fase de grupos y $50.000 COP desde octavos.</p>
-            </details>
-            <details>
-              <summary>¿Cómo compro?</summary>
-              <p>Paga a la llave @cisefa o por Nequi y envía el comprobante al WhatsApp 3124565617. Si necesitas link de pago, escríbenos a ese mismo WhatsApp.</p>
+              <summary>¿Cómo se realiza el pago?</summary>
+              <p>Puede pagar de forma rápida mediante el botón de PSE con RappiPay, o transferir por Nequi / Llave @cisefa notificando el comprobante de pago al número de WhatsApp de soporte 3124565617.</p>
             </details>
           </div>
         </div>
@@ -431,24 +329,24 @@
       <section class="section offer" id="acceso">
         <div class="wrap offer-grid">
           <div>
-            <h2>Acceso beta GolIA Mundial 2026</h2>
-            <p>Pago único para entrar a la herramienta. Paga de forma segura por PSE con el botón de abajo o, si lo prefieres, a la llave @cisefa o por Nequi enviando el comprobante al WhatsApp 3124565617.</p>
+            <h2>Obtenga su acceso analítico a GolIA</h2>
+            <p>Asegure su cupo de preventa beta y empiece a planificar sus estrategias con datos reales. Realice su pago por PSE de forma transparente o gestione la activación enviando el soporte de pago de Nequi al WhatsApp institucional.</p>
             <div class="actions">
               <a class="button" href="https://linkdepagospse.rappipay.co/rlgNsG" target="_blank" rel="noopener noreferrer">Pagar con PSE</a>
-              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Abrir herramienta</a>
+              <a class="button secondary" href="https://predicciones-mundial-2026-ml.streamlit.app/" target="_blank" rel="noopener noreferrer">Ver demo de la app</a>
             </div>
           </div>
           <div class="offer-price">
             <strong>$20.000</strong>
-            <span>COP beta</span>
-            <span>Luego: $30.000 fase de grupos - $50.000 desde octavos</span>
+            <span>COP licencia única</span>
+            <span>Tarifa incrementará en fase de grupos y fases eliminatorias</span>
           </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="wrap">GolIA muestra predicciones probabilísticas basadas en datos y simulaciones. Sirve para análisis, entretenimiento y pollas futboleras. No garantiza resultados reales ni apuestas seguras.</div>
+      <div class="wrap">GolIA es una plataforma tecnológica independiente de software y analítica predictiva deportiva. No posee vínculos con la FIFA ni promueve apuestas ilegales. Úselo como herramienta de entretenimiento estadístico e informativo.</div>
     </footer>
   </body>
 </html>
